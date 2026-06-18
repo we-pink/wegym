@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open /Users/victorklippel/Desktop/Developer/wegym/wegym/index.html)"
+    ]
+  }
+}

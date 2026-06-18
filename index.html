@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEGYM - Planos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background-color: #212121;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 3px solid #9333ea;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+    }
+
+    .logo-we {
+      font-size: 42px;
+      font-weight: 900;
+      font-style: italic;
+      color: #9333ea;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .logo-gym {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 2px;
+      line-height: 1;
+      position: relative;
+      top: -2px;
+    }
+
+    .header-divider {
+      width: 2px;
+      height: 36px;
+      background-color: #555;
+      margin: 0 8px;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ccc;
+      letter-spacing: 2px;
+    }
+
+    /* ===== MAIN / PLANS SECTION ===== */
+    .plans-section {
+      flex: 1;
+      padding: 50px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .plans-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1300px;
+      overflow: hidden;
+    }
+
+    .plans-carousel {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.4s ease;
+      padding: 10px 5px;
+    }
+
+    .plan-card {
+      min-width: 280px;
+      flex: 1;
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .plan-badge {
+      color: #9333ea;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      line-height: 1.3;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+    }
+
+    .plan-installments {
+      font-size: 16px;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .plan-installments strong {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .plan-price {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      gap: 2px;
+    }
+
+    .price-currency {
+      font-size: 16px;
+      font-weight: 600;
+      color: #999;
+      margin-top: 14px;
+    }
+
+    .price-value {
+      font-size: 72px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .price-cents {
+      font-size: 20px;
+      font-weight: 600;
+      color: #999;
+      margin-top: 14px;
+    }
+
+    .plan-cta {
+      width: 100%;
+      padding: 14px 24px;
+      background-color: transparent;
+      border: 2px solid #9333ea;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .plan-cta:hover {
+      background-color: #9333ea;
+      transform: translateY(-1px);
+    }
+
+    .plan-total {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .plan-details-toggle {
+      color: #9333ea;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Montserrat', sans-serif;
+      transition: opacity 0.2s;
+    }
+
+    .plan-details-toggle:hover {
+      opacity: 0.8;
+    }
+
+    .plan-details-toggle .chevron {
+      font-size: 10px;
+      transition: transform 0.3s;
+    }
+
+    .plan-details-toggle.active .chevron {
+      transform: rotate(180deg);
+    }
+
+    .plan-extra-info {
+      width: 100%;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, margin-top 0.3s ease;
+      margin-top: 0;
+    }
+
+    .plan-extra-info.open {
+      max-height: 200px;
+      margin-top: 16px;
+    }
+
+    .plan-extra-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-top: 1px solid #3a3a3a;
+      font-size: 14px;
+    }
+
+    .plan-extra-row .label {
+      color: #999;
+    }
+
+    .plan-extra-row .value {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .plan-extra-link {
+      color: #9333ea;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      background: none;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: opacity 0.2s;
+    }
+
+    .plan-extra-link:hover {
+      opacity: 0.8;
+    }
+
+    /* Carousel arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(147, 51, 234, 0.4);
+    }
+
+    .carousel-arrow.left {
+      left: -10px;
+    }
+
+    .carousel-arrow.right {
+      right: -10px;
+    }
+
+    .carousel-arrow.hidden {
+      display: none;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 40px;
+      max-width: 700px;
+      width: 100%;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 28px;
+      cursor: pointer;
+      transition: color 0.2s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .modal-left h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .modal-price-value {
+      font-size: 54px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .modal-price-period {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .modal-plan-label {
+      font-size: 15px;
+      color: #ccc;
+    }
+
+    .modal-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 4px;
+    }
+
+    .modal-vigencia {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .modal-vigencia strong {
+      color: #fff;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background-color: #212121;
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-top: 1px solid #333;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: baseline;
+    }
+
+    .footer-logo .logo-we {
+      font-size: 36px;
+    }
+
+    .footer-logo .logo-gym {
+      font-size: 20px;
+    }
+
+    .footer-info {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-col span {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      color: #999;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #9333ea;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .plans-carousel {
+        gap: 16px;
+      }
+
+      .plan-card {
+        min-width: 260px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 14px 20px;
+      }
+
+      .plans-section {
+        padding: 30px 10px 40px;
+      }
+
+      .plans-carousel {
+        gap: 12px;
+      }
+
+      .plan-card {
+        min-width: 260px;
+      }
+
+      .price-value {
+        font-size: 56px;
+      }
+
+      .footer {
+        padding: 24px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-info {
+        gap: 30px;
+        flex-direction: column;
+      }
+
+      .modal-body {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .modal-content {
+        padding: 30px 24px;
+      }
+
+      .carousel-arrow.left {
+        left: 2px;
+      }
+
+      .carousel-arrow.right {
+        right: 2px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-we {
+        font-size: 32px;
+      }
+
+      .logo-gym {
+        font-size: 18px;
+      }
+
+      .header-title {
+        font-size: 16px;
+      }
+
+      .plan-card {
+        min-width: 240px;
+        padding: 24px 18px;
+      }
+
+      .price-value {
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <span class="logo-we">We</span>
+      <span class="logo-gym">GYM</span>
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-title">WEGYM</span>
+  </header>
+
+  <!-- PLANS SECTION -->
+  <main class="plans-section">
+    <div class="plans-carousel-wrapper">
+      <button class="carousel-arrow left hidden" id="arrowLeft" aria-label="Anterior">&#10094;</button>
+      <div class="plans-carousel" id="plansCarousel">
+
+        <!-- Card 1 -->
+        <div class="plan-card">
+          <span class="plan-badge">Parcelado</span>
+          <span class="plan-name">Plano Anual - Feminino</span>
+          <div class="plan-installments"><strong>12x</strong> de</div>
+          <div class="plan-price">
+            <span class="price-currency">R$</span>
+            <span class="price-value">300</span>
+            <span class="price-cents">,00</span>
+          </div>
+          <button class="plan-cta">EU QUERO</button>
+          <span class="plan-total">R$3.600,00 em até 12x</span>
+          <button class="plan-details-toggle" onclick="toggleDetails(this)">
+            Ver detalhes <span class="chevron">&#9660;</span>
+          </button>
+          <div class="plan-extra-info">
+            <div class="plan-extra-row">
+              <span class="label">Duração</span>
+              <span class="value">15 meses</span>
+            </div>
+            <button class="plan-extra-link" onclick="openModal('Plano Anual - Feminino', '300,00', 'por mês', '15 meses')">
+              Mais sobre este plano
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="plan-card">
+          <span class="plan-badge">Parcelado</span>
+          <span class="plan-name">Plano Anual - Masculino</span>
+          <div class="plan-installments"><strong>12x</strong> de</div>
+          <div class="plan-price">
+            <span class="price-currency">R$</span>
+            <span class="price-value">300</span>
+            <span class="price-cents">,00</span>
+          </div>
+          <button class="plan-cta">EU QUERO</button>
+          <span class="plan-total">R$3.600,00 em até 12x</span>
+          <button class="plan-details-toggle" onclick="toggleDetails(this)">
+            Ver detalhes <span class="chevron">&#9660;</span>
+          </button>
+          <div class="plan-extra-info">
+            <div class="plan-extra-row">
+              <span class="label">Duração</span>
+              <span class="value">15 meses</span>
+            </div>
+            <button class="plan-extra-link" onclick="openModal('Plano Anual - Masculino', '300,00', 'por mês', '15 meses')">
+              Mais sobre este plano
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="plan-card">
+          <span class="plan-badge">Parcelado</span>
+          <span class="plan-name">Plano Semestral Feminino</span>
+          <div class="plan-installments"><strong>6x</strong> de</div>
+          <div class="plan-price">
+            <span class="price-currency">R$</span>
+            <span class="price-value">375</span>
+            <span class="price-cents">,00</span>
+          </div>
+          <button class="plan-cta">EU QUERO</button>
+          <span class="plan-total">R$2.250,00 em até 6x</span>
+          <button class="plan-details-toggle" onclick="toggleDetails(this)">
+            Ver detalhes <span class="chevron">&#9660;</span>
+          </button>
+          <div class="plan-extra-info">
+            <div class="plan-extra-row">
+              <span class="label">Duração</span>
+              <span class="value">6 meses</span>
+            </div>
+            <button class="plan-extra-link" onclick="openModal('Plano Semestral Feminino', '375,00', 'por mês', '6 meses')">
+              Mais sobre este plano
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="plan-card">
+          <span class="plan-badge">Parcelado</span>
+          <span class="plan-name">Plano Semestral Masculino</span>
+          <div class="plan-installments"><strong>6x</strong> de</div>
+          <div class="plan-price">
+            <span class="price-currency">R$</span>
+            <span class="price-value">375</span>
+            <span class="price-cents">,00</span>
+          </div>
+          <button class="plan-cta">EU QUERO</button>
+          <span class="plan-total">R$2.250,00 em até 6x</span>
+          <button class="plan-details-toggle" onclick="toggleDetails(this)">
+            Ver detalhes <span class="chevron">&#9660;</span>
+          </button>
+          <div class="plan-extra-info">
+            <div class="plan-extra-row">
+              <span class="label">Duração</span>
+              <span class="value">6 meses</span>
+            </div>
+            <button class="plan-extra-link" onclick="openModal('Plano Semestral Masculino', '375,00', 'por mês', '6 meses')">
+              Mais sobre este plano
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <button class="carousel-arrow right" id="arrowRight" aria-label="Próximo">&#10095;</button>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="planModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-body">
+        <div class="modal-left">
+          <h2 id="modalTitle"></h2>
+          <div class="modal-price-row">
+            <span class="modal-price-value" id="modalPrice"></span>
+            <span class="modal-price-period" id="modalPeriod"></span>
+          </div>
+          <span class="modal-plan-label" id="modalLabel"></span>
+        </div>
+        <div class="modal-right">
+          <span class="modal-vigencia">Vigência: <strong id="modalDuration"></strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <span class="logo-we">We</span>
+      <span class="logo-gym">GYM</span>
+    </div>
+    <div class="footer-info">
+      <div class="footer-col">
+        <span>WEGYM</span>
+        <span>CNPJ 61.218.238/0001-82</span>
+      </div>
+      <div class="footer-col">
+        <span>AVENIDA T 63 1296 -</span>
+        <span>GOIÂNIA - Goiás - CEP 74230-100</span>
+      </div>
+      <div class="footer-col">
+        <a href="mailto:contato@wegym.com.br">contato@wegym.com.br</a>
+        <a href="tel:+5511917583598">11 91758-3598</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Carousel
+    const carousel = document.getElementById('plansCarousel');
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+    let scrollPos = 0;
+
+    function updateArrows() {
+      const maxScroll = carousel.scrollWidth - carousel.parentElement.offsetWidth + 20;
+      arrowLeft.classList.toggle('hidden', scrollPos <= 0);
+      arrowRight.classList.toggle('hidden', scrollPos >= maxScroll);
+    }
+
+    function scrollCarousel(direction) {
+      const cardWidth = carousel.querySelector('.plan-card').offsetWidth + 24;
+      const maxScroll = carousel.scrollWidth - carousel.parentElement.offsetWidth + 20;
+      scrollPos += direction * cardWidth;
+      scrollPos = Math.max(0, Math.min(scrollPos, maxScroll));
+      carousel.style.transform = `translateX(-${scrollPos}px)`;
+      updateArrows();
+    }
+
+    arrowLeft.addEventListener('click', () => scrollCarousel(-1));
+    arrowRight.addEventListener('click', () => scrollCarousel(1));
+
+    window.addEventListener('resize', () => {
+      scrollPos = 0;
+      carousel.style.transform = 'translateX(0)';
+      updateArrows();
+    });
+
+    updateArrows();
+
+    // Toggle details
+    function toggleDetails(btn) {
+      const info = btn.nextElementSibling;
+      const isOpen = info.classList.contains('open');
+
+      if (isOpen) {
+        info.classList.remove('open');
+        btn.classList.remove('active');
+        btn.innerHTML = 'Ver detalhes <span class="chevron">&#9660;</span>';
+      } else {
+        info.classList.add('open');
+        btn.classList.add('active');
+        btn.innerHTML = 'ver menos <span class="chevron">&#9660;</span>';
+      }
+    }
+
+    // Modal
+    function openModal(title, price, period, duration) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('modalPeriod').textContent = period;
+      document.getElementById('modalLabel').textContent = title;
+      document.getElementById('modalDuration').textContent = 'Duração de ' + duration;
+      document.getElementById('planModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('planModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('planModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>
